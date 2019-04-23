@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://flafi:laci5687@mernstack-ozj20.mongodb.net/test?retryWrites=true",
+    "jwtSecret": "sl_myJwtSecret"
+}
