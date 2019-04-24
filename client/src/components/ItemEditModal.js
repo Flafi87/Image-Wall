@@ -53,6 +53,7 @@ class ItemEditModal extends Component {
       id: this.props.id,
       title: this.state.title,
       user: this.props.auth.user.email,
+      login: this.props.auth.user.login,
       productImage: this.props.image
     };
     console.log(newItem);

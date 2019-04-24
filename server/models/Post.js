@@ -12,6 +12,10 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
+  login: {
+    type: String,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now

@@ -56,6 +56,7 @@ router.post("/", auth, upload.single("productImage"), (req, res) => {
   const newPost = new Post({
     title: req.body.title,
     user: req.body.user,
+    login: req.body.login,
     image: pathString
   });
 
@@ -86,7 +87,7 @@ router.put("/update/:id", auth, upload.none(), (req, res) => {
       ///
       post.title = req.body.title;
       post.user = req.body.user;
-      post.image = req.body.productImage;
+      (post.login = req.body.login), (post.image = req.body.productImage);
       ///
       post.save().then(() => res.json(post));
     })

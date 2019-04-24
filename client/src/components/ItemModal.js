@@ -44,6 +44,7 @@ class ItemModal extends Component {
     const newItem = {
       title: this.state.title,
       user: this.props.auth.user.email,
+      login: this.props.auth.user.login,
       productImage: this.state.file
     };
 

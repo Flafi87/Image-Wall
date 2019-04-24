@@ -28,6 +28,7 @@ export const addItem = post => (dispatch, getState) => {
   const formData = new FormData();
   formData.append("title", post.title);
   formData.append("user", post.user);
+  formData.append("login", post.login);
   formData.append("productImage", post.productImage);
   // const config = {
   //   headers: {
@@ -52,6 +53,7 @@ export const editItem = post => (dispatch, getState) => {
   const formData = new FormData();
   formData.append("title", post.title);
   formData.append("user", post.user);
+  formData.append("login", post.login);
   formData.append("productImage", post.productImage);
   axios
     .put(`/api/posts/update/${post.id}`, formData, tokenConfig(getState))

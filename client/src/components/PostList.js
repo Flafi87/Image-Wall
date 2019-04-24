@@ -12,7 +12,7 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
-  CardSubtitle
+  CardFooter
 } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
@@ -34,29 +34,35 @@ class PostList extends Component {
     this.props.editItem(id);
   };
 
+  onDate = date => {
+    let time = new Date(date);
+    return time.toDateString();
+  };
+
   render() {
     const { posts } = this.props.post;
     const registeredList = (
-      <ListGroup>
-        <TransitionGroup className="shopping-list">
-          {posts.map(({ _id, title, image, user }) => (
-            <CSSTransition key={_id} timeout={500} classNames="fade">
-              <Card className="row">
-                <CardHeader>{title}</CardHeader>
+      <TransitionGroup className="image-list">
+        {posts.map(({ _id, title, image, user, login, date }) => (
+          <CSSTransition key={_id} timeout={500} classNames="fade">
+            <Card className="row mb-5">
+              <CardHeader>{title}</CardHeader>
 
-                <CardImg className="col-sm" src={image} alt="car" />
-                <CardBody>
-                  {this.props.email === user ? (
-                    <React.Fragment>
-                      <ItemEditModal id={_id} image={image} title={title} />
-                    </React.Fragment>
-                  ) : null}
-                </CardBody>
-              </Card>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      </ListGroup>
+              <CardImg className="card-img-top" src={image} alt="car" />
+              <CardBody>
+                {this.props.email === user ? (
+                  <React.Fragment>
+                    <ItemEditModal id={_id} image={image} title={title} />
+                  </React.Fragment>
+                ) : null}
+              </CardBody>
+              <CardFooter>
+                {login}-{this.onDate(date)}
+              </CardFooter>
+            </Card>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
     );
 
     const guestList = (
