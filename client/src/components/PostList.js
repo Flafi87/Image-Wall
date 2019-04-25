@@ -36,7 +36,9 @@ class PostList extends Component {
 
   onDate = date => {
     let time = new Date(date);
-    return time.toDateString();
+    return `${time.toDateString()} ${("0" + time.getHours()).slice(-2)}:${(
+      "0" + time.getMinutes()
+    ).slice(-2)}`;
   };
 
   render() {
@@ -57,7 +59,9 @@ class PostList extends Component {
                 ) : null}
               </CardBody>
               <CardFooter>
-                {login}-{this.onDate(date)}
+                {login}
+                <div className="col-sm" />
+                {this.onDate(date)}
               </CardFooter>
             </Card>
           </CSSTransition>

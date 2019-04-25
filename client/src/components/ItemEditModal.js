@@ -79,8 +79,10 @@ class ItemEditModal extends Component {
         {this.props.isAuthenticated ? (
           <Button
             color="dark"
-            style={{ marginBottom: "2rem" }}
-            onClick={this.toggle}
+            onClick={() => {
+              this.toggle();
+              this.setState({ title: this.props.title });
+            }}
           >
             Edit Post
           </Button>
@@ -99,7 +101,7 @@ class ItemEditModal extends Component {
                   type="text"
                   name="title"
                   id="title"
-                  placeholder="placeholder"
+                  defaultValue={this.state.tile}
                   onChange={this.onChange}
                 />
                 <Button
@@ -107,6 +109,7 @@ class ItemEditModal extends Component {
                   color="danger"
                   size="sm"
                   onClick={this.onDeleteClick.bind(this, this.props.id)}
+                  style={{ margin: "1rem 0 1rem 0" }}
                 >
                   Delete this Post
                 </Button>

@@ -36,14 +36,14 @@ export default function(state = initialState, action) {
         loading: false
       };
     case DELETE_POST:
-      return deletePost(state, action);
+      return { ...state, posts: action.payload };
     case ADD_POST:
       return {
         ...state,
         posts: [action.payload, ...state.posts]
       };
     case EDIT_POST:
-      return editPost(state, action);
+      return { ...state, posts: action.payload };
 
     case POSTS_LOADING:
       return {

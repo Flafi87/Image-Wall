@@ -56,13 +56,13 @@ class ItemModal extends Component {
   };
 
   render() {
-    if (this.props.isLoading) {
+    if (this.props.isLoading || !this.props.isAuthenticated) {
       return null;
     } else {
       return (
         <div>
           <Button
-            color="dark"
+            color="primary"
             style={{ marginBottom: "2rem" }}
             onClick={this.toggle}
           >
