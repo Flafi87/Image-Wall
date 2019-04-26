@@ -50,7 +50,7 @@ class PostList extends Component {
             <Card className="row mb-5">
               <CardHeader>{title}</CardHeader>
 
-              <CardImg className="card-img-top" src={image} alt="car" />
+              <CardImg className="card-img-top" src={image} alt={title} />
               <CardBody>
                 {this.props.email === user ? (
                   <React.Fragment>

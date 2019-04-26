@@ -43,8 +43,8 @@ class ItemModal extends Component {
     e.preventDefault();
     const newItem = {
       title: this.state.title,
-      user: this.props.auth.user.email,
-      login: this.props.auth.user.login,
+      user: this.props.auth.email,
+      login: this.props.auth.user,
       productImage: this.state.file
     };
 

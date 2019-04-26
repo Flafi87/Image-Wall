@@ -107,6 +107,8 @@ export const logout = () => {
 export const tokenConfig = getState => {
   // Get token from localstorage
   const token = getState().auth.token;
+  const login = getState().auth.user;
+  const email = getState().auth.email;
 
   // Headers
   const config = {
@@ -118,6 +120,8 @@ export const tokenConfig = getState => {
   // If token, add to headers
   if (token) {
     config.headers["x-auth-token"] = token;
+    config.headers["login"] = login;
+    config.headers["email"] = email;
   }
 
   return config;

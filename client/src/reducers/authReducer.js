@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload,
+        user: action.payload.login,
         email: action.payload.email
       };
     case LOGIN_SUCCESS:
