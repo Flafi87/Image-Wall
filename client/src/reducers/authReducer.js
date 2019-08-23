@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   USER_LOADED,
   USER_LOADING,
@@ -11,7 +12,7 @@ import {
 
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
+  isAuthenticated: false,
   isLoading: false,
   user: null,
   email: null
@@ -29,7 +30,8 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload.login,
+        user: action.payload,
+        login: action.payload.login,
         email: action.payload.email
       };
     case LOGIN_SUCCESS:

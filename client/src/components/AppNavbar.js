@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import {
   Collapse,
   Navbar,
@@ -15,54 +15,52 @@ import LoginModal from "./auth/LoginModal";
 import Logout from "./auth/Logout";
 
 class AppNavbar extends Component {
-  state = {
-    isOpen: false
-  };
-
-  static propTypes = {
-    auth: PropTypes.object.isRequired
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
 
   toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   };
 
   render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const { isLoading, login, isAuthenticated } = this.props;
+    const { isOpen } = this.state;
 
     const authLinks = (
-      <Fragment>
+      <>
         <NavItem>
           <span className="navbar-text mr-3">
-            <strong>{user ? `Welcome ${user.login}` : ""}</strong>
+            <strong>{login ? `Welcome ${login}` : ""}</strong>
           </span>
         </NavItem>
         <NavItem>
           <Logout />
         </NavItem>
-      </Fragment>
+      </>
     );
 
     const guestLinks = (
-      <Fragment>
+      <>
         <NavItem>
           <RegisterModal />
         </NavItem>
         <NavItem>
           <LoginModal />
         </NavItem>
-      </Fragment>
+      </>
     );
-    if (this.props.isLoading) {
+    if (isLoading) {
       return (
         <div>
           <Navbar color="dark" dark expand="sm" className="mb-5">
             <Container>
               <NavbarBrand href="/">ImageWall</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
+              <Collapse isOpen={isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   {authLinks}
                 </Nav>
@@ -71,29 +69,35 @@ class AppNavbar extends Component {
           </Navbar>
         </div>
       );
-    } else {
-      return (
-        <div>
-          <Navbar color="dark" dark expand="sm" className="mb-5">
-            <Container>
-              <NavbarBrand href="/">ImageWall</NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                  {isAuthenticated ? authLinks : guestLinks}
-                </Nav>
-              </Collapse>
-            </Container>
-          </Navbar>
-        </div>
-      );
     }
+    return (
+      <div>
+        <Navbar color="dark" dark expand="sm" className="mb-5">
+          <Container>
+            <NavbarBrand href="/">ImageWall</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                {isAuthenticated ? authLinks : guestLinks}
+              </Nav>
+            </Collapse>
+          </Container>
+        </Navbar>
+      </div>
+    );
   }
 }
 
+AppNavbar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  login: PropTypes.string.isRequired,
+  isLoading: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
-  auth: state.auth,
-  isLoading: state.auth.isLoading
+  isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading,
+  login: state.auth.login
 });
 
 export default connect(

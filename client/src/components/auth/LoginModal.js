@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Button,
   Modal,
@@ -10,32 +10,29 @@ import {
   Input,
   NavLink,
   Alert
-} from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/authActions';
-import { clearErrors } from '../../actions/errorActions';
+} from "reactstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../actions/authActions";
+import { clearErrors } from "../../actions/errorActions";
 
 class LoginModal extends Component {
-  state = {
-    modal: false,
-    email: '',
-    password: '',
-    msg: null
-  };
-
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      email: "",
+      password: "",
+      msg: null
+    };
+  }
 
   componentDidUpdate(prevProps) {
+    const { modal } = this.state;
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       // Check for register error
-      if (error.id === 'LOGIN_FAIL') {
+      if (error.id === "LOGIN_FAIL") {
         this.setState({ msg: error.msg.msg });
       } else {
         this.setState({ msg: null });
@@ -43,7 +40,7 @@ class LoginModal extends Component {
     }
 
     // If authenticated, close modal
-    if (this.state.modal) {
+    if (modal) {
       if (isAuthenticated) {
         this.toggle();
       }
@@ -51,10 +48,12 @@ class LoginModal extends Component {
   }
 
   toggle = () => {
+    const { clearErrors } = this.props;
+    const { modal } = this.state;
     // Clear errors
-    this.props.clearErrors();
+    clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !modal
     });
   };
 
@@ -63,6 +62,7 @@ class LoginModal extends Component {
   };
 
   onSubmit = e => {
+    const { login } = this.props;
     e.preventDefault();
 
     const { email, password } = this.state;
@@ -73,44 +73,43 @@ class LoginModal extends Component {
     };
 
     // Attempt to login
-    this.props.login(user);
+    login(user);
   };
 
   render() {
+    const { modal, msg } = this.state;
     return (
       <div>
-        <NavLink onClick={this.toggle} href='#'>
+        <NavLink onClick={this.toggle} href="#">
           Login
         </NavLink>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Login</ModalHeader>
           <ModalBody>
-            {this.state.msg ? (
-              <Alert color='danger'>{this.state.msg}</Alert>
-            ) : null}
+            {msg ? <Alert color="danger">{msg}</Alert> : null}
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='email'>Email</Label>
+                <Label for="email">Email</Label>
                 <Input
-                  type='email'
-                  name='email'
-                  id='email'
-                  placeholder='Email'
-                  className='mb-3'
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
 
-                <Label for='password'>Password</Label>
+                <Label for="password">Password</Label>
                 <Input
-                  type='password'
-                  name='password'
-                  id='password'
-                  placeholder='Password'
-                  className='mb-3'
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
+                <Button color="dark" style={{ marginTop: "2rem" }} block>
                   Login
                 </Button>
               </FormGroup>
@@ -121,6 +120,13 @@ class LoginModal extends Component {
     );
   }
 }
+
+LoginModal.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  error: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,

@@ -13,6 +13,30 @@ import {
   REGISTER_FAIL
 } from "./types";
 
+// Setup config/headers and token
+const tokenConfig = getState => {
+  // Get token from localstorage
+  const { token } = getState().auth;
+  const login = getState().auth.user;
+  const { email } = getState().auth;
+
+  // Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+
+  // If token, add to headers
+  if (token) {
+    config.headers["x-auth-token"] = token;
+    config.headers.login = login;
+    config.headers.email = email;
+  }
+
+  return config;
+};
+
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
   // User loading
@@ -101,28 +125,4 @@ export const logout = () => {
   return {
     type: LOGOUT_SUCCESS
   };
-};
-
-// Setup config/headers and token
-export const tokenConfig = getState => {
-  // Get token from localstorage
-  const token = getState().auth.token;
-  const login = getState().auth.user;
-  const email = getState().auth.email;
-
-  // Headers
-  const config = {
-    headers: {
-      "Content-type": "application/json"
-    }
-  };
-
-  // If token, add to headers
-  if (token) {
-    config.headers["x-auth-token"] = token;
-    config.headers["login"] = login;
-    config.headers["email"] = email;
-  }
-
-  return config;
 };
