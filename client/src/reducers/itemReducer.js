@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
+import _ from "lodash";
 import {
   GET_POSTS,
   ADD_POST,
@@ -5,7 +8,6 @@ import {
   DELETE_POST,
   POSTS_LOADING
 } from "../actions/types";
-import _ from "lodash";
 
 const initialState = {
   posts: [],

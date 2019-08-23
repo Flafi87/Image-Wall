@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import { EDIT_POST, DELETE_POST } from "./actions/types";
 
 export const editPost = ({ getState }) => next => ({ type, payload }) => {
   if (type === EDIT_POST) {
     const { post } = getState();
-    const updatedPosts = post.posts.map(post =>
-      post._id === payload._id ? payload : post
+    const updatedPosts = post.posts.map(el =>
+      el._id === payload._id ? payload : el
     );
     return next({ type, payload: updatedPosts });
   }

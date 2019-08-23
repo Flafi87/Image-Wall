@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { Component } from "react";
 import {
   Button,
@@ -17,23 +18,21 @@ import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 
 class RegisterModal extends Component {
-  state = {
-    modal: false,
-    login: "",
-    email: "",
-    password: "",
-    msg: null
-  };
-
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-    register: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      login: "",
+      email: "",
+      password: "",
+      msg: null
+    };
+  }
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
+    const { modal } = this.state;
+
     if (error !== prevProps.error) {
       // Check for register error
       if (error.id === "REGISTER_FAIL") {
@@ -44,7 +43,7 @@ class RegisterModal extends Component {
     }
 
     // If authenticated, close modal
-    if (this.state.modal) {
+    if (modal) {
       if (isAuthenticated) {
         this.toggle();
       }
@@ -53,10 +52,9 @@ class RegisterModal extends Component {
 
   toggle = () => {
     // Clear errors
-    this.props.clearErrors();
-    this.setState({
-      modal: !this.state.modal
-    });
+    const { clearErrors } = this.props;
+    clearErrors();
+    this.setState(prevState => ({ modal: !prevState.value }));
   };
 
   onChange = e => {
@@ -64,6 +62,7 @@ class RegisterModal extends Component {
   };
 
   onSubmit = e => {
+    const { register } = this.props;
     e.preventDefault();
 
     const { login, email, password } = this.state;
@@ -76,22 +75,21 @@ class RegisterModal extends Component {
     };
 
     // Attempt to register
-    this.props.register(newUser);
+    register(newUser);
   };
 
   render() {
+    const { modal, msg } = this.state;
     return (
       <div>
         <NavLink onClick={this.toggle} href="#">
           Register
         </NavLink>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
           <ModalBody>
-            {this.state.msg ? (
-              <Alert color="danger">{this.state.msg}</Alert>
-            ) : null}
+            {msg ? <Alert color="danger">{msg}</Alert> : null}
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="login">Login</Label>
@@ -134,6 +132,13 @@ class RegisterModal extends Component {
     );
   }
 }
+
+RegisterModal.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  error: PropTypes.object.isRequired,
+  register: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,

@@ -7,64 +7,58 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  CustomInput
+  Input
 } from "reactstrap";
 import { connect } from "react-redux";
-import { editItem, deleteItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
+import { editItem, deleteItem } from "../actions/itemActions";
 
 class ItemEditModal extends Component {
-  state = {
-    modal: false,
-    title: ""
-  };
   constructor(props) {
     super(props);
-    // create a ref to store the textInput DOM element
+    this.state = {
+      modal: false,
+      title: ""
+    };
     this.focus = this.focus.bind(this);
   }
 
-  focus() {
-    this.textInput.focus();
-  }
-
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    isLoading: PropTypes.bool
-  };
-
   toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
   onFileChange = e => {
     this.setState({ [e.target.name]: e.target.files[0] });
   };
 
   onSubmit = e => {
+    const { id, auth, image, editItem } = this.props;
+    const { title } = this.state;
     e.preventDefault();
     const newItem = {
-      id: this.props.id,
-      title: this.state.title,
-      user: this.props.auth.user.email,
-      login: this.props.auth.user.login,
-      productImage: this.props.image
+      id: id,
+      title: title,
+      user: auth.user.email,
+      login: auth.user.login,
+      productImage: image
     };
     console.log(newItem);
     // Add item via addItem action
-    this.props.editItem(newItem);
+    editItem(newItem);
 
     // Close modal
     this.toggle();
   };
+
   onDeleteClick = id => {
-    this.props.deleteItem(id);
+    const { deleteItem } = this.props;
+    deleteItem(id);
   };
 
   focusInput = component => {
@@ -73,15 +67,21 @@ class ItemEditModal extends Component {
     }
   };
 
+  focus() {
+    this.textInput.focus();
+  }
+
   render() {
+    const { isAuthenticated, title } = this.props;
+    const { modal } = this.state;
     return (
       <div>
-        {this.props.isAuthenticated ? (
+        {isAuthenticated ? (
           <Button
             color="dark"
             onClick={() => {
               this.toggle();
-              this.setState({ title: this.props.title });
+              this.setState({ title: title });
             }}
           >
             Edit Post
@@ -90,7 +90,7 @@ class ItemEditModal extends Component {
           <h4 className="mb-3 ml-4">Please log in to manage items</h4>
         )}
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Modify Post</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
@@ -101,7 +101,7 @@ class ItemEditModal extends Component {
                   type="text"
                   name="title"
                   id="title"
-                  defaultValue={this.state.tile}
+                  defaultValue={title}
                   onChange={this.onChange}
                 />
                 <Button
@@ -124,6 +124,10 @@ class ItemEditModal extends Component {
     );
   }
 }
+
+ItemEditModal.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,

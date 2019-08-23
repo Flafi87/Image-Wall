@@ -1,48 +1,37 @@
 import React, { Component } from "react";
 import {
   Container,
-  ListGroup,
-  ListGroupItem,
-  Button,
   Alert,
-  Media,
   Card,
   CardImg,
-  CardText,
   CardBody,
-  CardTitle,
   CardHeader,
   CardFooter
 } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { editItem, deleteItem } from "../actions/itemActions";
 import ItemEditModal from "./ItemEditModal";
-import PropTypes from "prop-types";
 
 class PostList extends Component {
-  static propTypes = {
-    post: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    email: PropTypes.string
-  };
-
   componentDidMount() {}
 
   onEditClick = id => {
-    this.props.editItem(id);
+    const { editItem } = this.props;
+    editItem(id);
   };
 
   onDate = date => {
-    let time = new Date(date);
-    return `${time.toDateString()} ${("0" + time.getHours()).slice(-2)}:${(
-      "0" + time.getMinutes()
-    ).slice(-2)}`;
+    const time = new Date(date);
+    return `${time.toDateString()} ${`0${time.getHours()}`.slice(
+      -2
+    )}:${`0${time.getMinutes()}`.slice(-2)}`;
   };
 
   render() {
-    const { posts } = this.props.post;
+    const { posts } = this.props;
+    const { email, isLoading, isAuthenticated } = this.props;
     const registeredList = (
       <TransitionGroup className="image-list">
         {posts.map(({ _id, title, image, user, login, date }) => (
@@ -52,10 +41,10 @@ class PostList extends Component {
 
               <CardImg className="card-img-top" src={image} alt={title} />
               <CardBody>
-                {this.props.email === user ? (
-                  <React.Fragment>
+                {email === user ? (
+                  <>
                     <ItemEditModal id={_id} image={image} title={title} />
-                  </React.Fragment>
+                  </>
                 ) : null}
               </CardBody>
               <CardFooter>
@@ -72,20 +61,24 @@ class PostList extends Component {
     const guestList = (
       <Alert color="secondary">Unfortunately you have to log in</Alert>
     );
-    if (this.props.isLoading) {
+    if (isLoading) {
       return null;
-    } else {
-      return (
-        <Container>
-          {this.props.isAuthenticated ? registeredList : guestList}
-        </Container>
-      );
     }
+    return (
+      <Container>{isAuthenticated ? registeredList : guestList}</Container>
+    );
   }
 }
 
+PostList.propTypes = {
+  posts: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  email: PropTypes.string
+};
+
 const mapStateToProps = state => ({
-  post: state.post,
+  posts: state.post.posts,
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
   email: state.auth.email
