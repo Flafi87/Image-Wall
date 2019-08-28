@@ -62,7 +62,7 @@ class AppNavbar extends Component {
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  {authLinks}
+                  {guestLinks}
                 </Nav>
               </Collapse>
             </Container>
@@ -91,7 +91,7 @@ class AppNavbar extends Component {
 AppNavbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   login: PropTypes.string.isRequired,
-  isLoading: PropTypes.func.isRequired
+  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
