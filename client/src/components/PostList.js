@@ -71,10 +71,10 @@ class PostList extends Component {
 }
 
 PostList.propTypes = {
-  posts: PropTypes.object.isRequired,
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  email: PropTypes.string
+  email: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

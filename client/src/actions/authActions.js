@@ -1,6 +1,7 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
 import { getItems } from "./itemActions";
+import config from "../config";
 
 import {
   USER_LOADED,
@@ -12,6 +13,8 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL
 } from "./types";
+
+const { port } = config;
 
 // Setup config/headers and token
 const tokenConfig = getState => {
@@ -43,7 +46,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("/api/auth/user", tokenConfig(getState))
+    .get(`${port}/api/auth/user`, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: USER_LOADED,
@@ -72,7 +75,7 @@ export const register = ({ login, email, password }) => dispatch => {
   const body = JSON.stringify({ login, email, password });
 
   axios
-    .post("/api/users", body, config)
+    .post(`${port}/api/users`, body, config)
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
@@ -102,7 +105,7 @@ export const login = ({ email, password }) => dispatch => {
   const body = JSON.stringify({ email, password });
 
   axios
-    .post("/api/auth", body, config)
+    .post(`${port}/api/auth`, body, config)
     .then(res => {
       dispatch({
         type: LOGIN_SUCCESS,

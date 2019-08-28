@@ -17,9 +17,10 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.3"
   },
+  "homepage": "https://flafi.hu/jsthings/imagewall/",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

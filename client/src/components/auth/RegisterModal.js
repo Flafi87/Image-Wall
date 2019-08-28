@@ -54,7 +54,9 @@ class RegisterModal extends Component {
     // Clear errors
     const { clearErrors } = this.props;
     clearErrors();
-    this.setState(prevState => ({ modal: !prevState.value }));
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   };
 
   onChange = e => {
