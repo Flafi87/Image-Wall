@@ -52,7 +52,7 @@ router.get("/", auth, (req, res) => {
 router.post("/", auth, upload.single("productImage"), (req, res) => {
   //   console.log(req.file);
   //   console.log(path);
-  pathString = "/" + req.file.path.replace(/\\/g, "/");
+  pathString = "https://flafi.hu:2053/" + req.file.path.replace(/\\/g, "/");
   const newPost = new Post({
     title: req.body.title,
     user: req.body.user,

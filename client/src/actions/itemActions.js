@@ -8,6 +8,9 @@ import {
   POSTS_LOADING
 } from "./types";
 import { returnErrors } from "./errorActions";
+import config from "../config";
+
+const { port } = config;
 
 const tokenConfig = getState => {
   // Get token from localstorage
@@ -41,7 +44,7 @@ export const setItemsLoading = () => {
 export const getItems = () => (dispatch, getState) => {
   dispatch(setItemsLoading());
   axios
-    .get("/api/posts", tokenConfig(getState))
+    .get(`${port}/api/posts`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: GET_POSTS,
@@ -61,7 +64,7 @@ export const addItem = post => (dispatch, getState) => {
   formData.append("productImage", post.productImage);
 
   axios
-    .post("/api/posts", formData, tokenConfig(getState))
+    .post(`${port}/api/posts`, formData, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_POST,
@@ -80,7 +83,11 @@ export const editItem = post => (dispatch, getState) => {
   formData.append("login", post.login);
   formData.append("productImage", post.productImage);
   axios
-    .put(`/api/posts/update/${post.id}`, formData, tokenConfig(getState))
+    .put(
+      `${port}/api/posts/update/${post.id}`,
+      formData,
+      tokenConfig(getState)
+    )
     .then(res =>
       dispatch({
         type: EDIT_POST,
@@ -95,7 +102,7 @@ export const editItem = post => (dispatch, getState) => {
 
 export const deleteItem = id => (dispatch, getState) => {
   axios
-    .delete(`/api/posts/${id}`, tokenConfig(getState))
+    .delete(`${port}/api/posts/${id}`, tokenConfig(getState))
     .then(() =>
       dispatch({
         type: DELETE_POST,

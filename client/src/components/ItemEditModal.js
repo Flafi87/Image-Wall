@@ -48,7 +48,7 @@ class ItemEditModal extends Component {
       login: auth.user.login,
       productImage: image
     };
-    console.log(newItem);
+    //console.log(newItem);
     // Add item via addItem action
     editItem(newItem);
 
