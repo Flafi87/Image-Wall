@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Collapse,
   Navbar,
@@ -6,24 +6,26 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  Container
-} from "reactstrap";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import RegisterModal from "./auth/RegisterModal";
-import LoginModal from "./auth/LoginModal";
-import Logout from "./auth/Logout";
+  Container,
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import RegisterModal from './auth/RegisterModal';
+import LoginModal from './auth/LoginModal';
+import Logout from './auth/Logout';
+import Profile from './auth/Profile';
+import Wall from './auth/Wall';
 
 class AppNavbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
   toggle = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+    this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
   };
 
   render() {
@@ -34,8 +36,14 @@ class AppNavbar extends Component {
       <>
         <NavItem>
           <span className="navbar-text mr-3">
-            <strong>{login ? `Welcome ${login}` : ""}</strong>
+            <strong>{login ? `Welcome ${login}` : ''}</strong>
           </span>
+        </NavItem>
+        <NavItem>
+          <Wall />
+        </NavItem>
+        <NavItem>
+          <Profile />
         </NavItem>
         <NavItem>
           <Logout />
@@ -91,16 +99,16 @@ class AppNavbar extends Component {
 AppNavbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   login: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
-  login: state.auth.login
+  login: state.auth.login,
 });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(AppNavbar);

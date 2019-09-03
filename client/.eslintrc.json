@@ -1,11 +1,13 @@
 {
-  "env": {
-    "jest": true
-  },
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier", "jest"],
+  "extends": [
+    "airbnb"
+  ],
   "rules": {
-    "prettier/prettier": "error",
+    "linebreak-style": [
+      0,
+      "error",
+      "windows"
+    ],
     "no-unused-vars": "warn",
     "no-console": "off",
     "no-shadow": "off",
@@ -13,15 +15,13 @@
     "no-process-exit": "off",
     "object-shorthand": "off",
     "class-methods-use-this": "off",
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
       }
     ]
   },

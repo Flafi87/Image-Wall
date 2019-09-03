@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -7,48 +7,50 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
-} from "reactstrap";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { editItem, deleteItem } from "../actions/itemActions";
+  Input,
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { editItem, deleteItem } from '../actions/itemActions';
 
 class ItemEditModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      title: ""
+      title: '',
     };
     this.focus = this.focus.bind(this);
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onFileChange = e => {
+  onFileChange = (e) => {
     this.setState({ [e.target.name]: e.target.files[0] });
   };
 
-  onSubmit = e => {
-    const { id, auth, image, editItem } = this.props;
+  onSubmit = (e) => {
+    const {
+      id, email, login, image, editItem,
+    } = this.props;
     const { title } = this.state;
     e.preventDefault();
     const newItem = {
       id: id,
       title: title,
-      user: auth.user.email,
-      login: auth.user.login,
-      productImage: image
+      user: email,
+      login: login,
+      productImage: image,
     };
-    //console.log(newItem);
+    // console.log(newItem);
     // Add item via addItem action
     editItem(newItem);
 
@@ -56,12 +58,12 @@ class ItemEditModal extends Component {
     this.toggle();
   };
 
-  onDeleteClick = id => {
+  onDeleteClick = (id) => {
     const { deleteItem } = this.props;
     deleteItem(id);
   };
 
-  focusInput = component => {
+  focusInput = (component) => {
     if (component) {
       component.focus();
     }
@@ -109,11 +111,11 @@ class ItemEditModal extends Component {
                   color="danger"
                   size="sm"
                   onClick={this.onDeleteClick.bind(this, this.props.id)}
-                  style={{ margin: "1rem 0 1rem 0" }}
+                  style={{ margin: '1rem 0 1rem 0' }}
                 >
                   Delete this Post
                 </Button>
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                <Button color="dark" style={{ marginTop: '2rem' }} block>
                   DONE!
                 </Button>
               </FormGroup>
@@ -126,16 +128,30 @@ class ItemEditModal extends Component {
 }
 
 ItemEditModal.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  auth: PropTypes.shape({
+    token: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  }).isRequired,
+  email: PropTypes.string.isRequired,
+  login: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  editItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   auth: state.auth,
-  isLoading: state.auth.isLoading
+  isLoading: state.auth.isLoading,
+  email: state.auth.user.email,
+  login: state.auth.user.login,
 });
 
 export default connect(
   mapStateToProps,
-  { editItem, deleteItem }
+  { editItem, deleteItem },
 )(ItemEditModal);
