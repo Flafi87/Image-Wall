@@ -12,6 +12,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  CHANGE_PASSWORD,
 } from './types';
 
 const { port } = config;
@@ -55,7 +56,7 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch(getItems());
     })
     .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data.msg, err.response.status));
       dispatch({
         type: AUTH_ERROR,
       });
@@ -125,3 +126,29 @@ export const login = ({ email, password }) => (dispatch) => {
 export const logout = () => ({
   type: LOGOUT_SUCCESS,
 });
+
+
+export const changePassword = ({
+  login, email, password, newPassword,
+}) => (dispatch, getState) => {
+  // Request body
+  const body = JSON.stringify({
+    login, email, password, newPassword,
+  });
+  console.log(body);
+  axios
+    .post(`${port}api/userupdate`, body, tokenConfig(getState))
+    .then((res) => dispatch({
+      type: CHANGE_PASSWORD,
+      payload: res.data,
+    }))
+    .catch((err) => {
+      console.log(err);
+      // dispatch(
+      //   returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'),
+      // );
+      // dispatch({
+      //   type: REGISTER_FAIL,
+      // });
+    });
+};

@@ -8,6 +8,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  CHANGE_PASSWORD,
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +37,7 @@ export default function (state = initialState, action) {
         email: action.payload.email,
       };
     case LOGIN_SUCCESS:
+    case CHANGE_PASSWORD:
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
@@ -46,6 +48,7 @@ export default function (state = initialState, action) {
         isLoading: false,
         email: action.payload.user.email,
       };
+
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:

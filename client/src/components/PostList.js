@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import {
   Container,
@@ -36,7 +37,7 @@ class PostList extends Component {
         {posts.map(({
           _id, title, image, user, login, date,
         }) => (
-          <CSSTransition key={_id} timeout={500} classNames="fade">
+            <CSSTransition key={_id} timeout={500} classNames="fade">
               <Card className="row mb-5">
                 <CardHeader>{title}</CardHeader>
 
