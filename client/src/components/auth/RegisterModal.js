@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -10,22 +10,22 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
-} from "reactstrap";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { register } from "../../actions/authActions";
-import { clearErrors } from "../../actions/errorActions";
+  Alert,
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { register } from '../../actions/authActions';
+import { clearErrors } from '../../actions/errorActions';
 
 class RegisterModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      login: "",
-      email: "",
-      password: "",
-      msg: null
+      login: '',
+      email: '',
+      password: '',
+      msg: null,
     };
   }
 
@@ -35,7 +35,7 @@ class RegisterModal extends Component {
 
     if (error !== prevProps.error) {
       // Check for register error
-      if (error.id === "REGISTER_FAIL") {
+      if (error.id === 'REGISTER_FAIL') {
         this.setState({ msg: error.msg.msg });
       } else {
         this.setState({ msg: null });
@@ -54,16 +54,16 @@ class RegisterModal extends Component {
     // Clear errors
     const { clearErrors } = this.props;
     clearErrors();
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     const { register } = this.props;
     e.preventDefault();
 
@@ -73,7 +73,7 @@ class RegisterModal extends Component {
     const newUser = {
       login,
       email,
-      password
+      password,
     };
 
     // Attempt to register
@@ -123,7 +123,7 @@ class RegisterModal extends Component {
                   className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                <Button color="dark" style={{ marginTop: '2rem' }} block>
                   Register
                 </Button>
               </FormGroup>
@@ -139,15 +139,15 @@ RegisterModal.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   error: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired
+  clearErrors: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
 export default connect(
   mapStateToProps,
-  { register, clearErrors }
+  { register, clearErrors },
 )(RegisterModal);

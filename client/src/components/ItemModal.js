@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -8,37 +8,37 @@ import {
   FormGroup,
   Label,
   Input,
-  CustomInput
-} from "reactstrap";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { addItem } from "../actions/itemActions";
+  CustomInput,
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addItem } from '../actions/itemActions';
 
 class ItemModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      title: "",
-      file: null
+      title: '',
+      file: null,
     };
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onFileChange = e => {
+  onFileChange = (e) => {
     this.setState({ [e.target.name]: e.target.files[0] });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     const { title, file } = this.state;
     const { email, user, addItem } = this.props;
     console.log(user);
@@ -47,7 +47,7 @@ class ItemModal extends Component {
       title: title,
       user: email,
       login: user,
-      productImage: file
+      productImage: file,
     };
 
     // Add item via addItem action
@@ -67,7 +67,7 @@ class ItemModal extends Component {
       <div>
         <Button
           color="primary"
-          style={{ marginBottom: "2rem" }}
+          style={{ marginBottom: '2rem' }}
           onClick={this.toggle}
         >
           Add Post
@@ -91,10 +91,10 @@ class ItemModal extends Component {
                   type="file"
                   id="filebrowser"
                   name="file"
-                  label={file ? file.name : "Yo, pick a file!"}
+                  label={file ? file.name : 'Yo, pick a file!'}
                   onChange={this.onFileChange}
                 />
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                <Button color="dark" style={{ marginTop: '2rem' }} block>
                   Add the Post
                 </Button>
               </FormGroup>
@@ -111,17 +111,17 @@ ItemModal.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
-  addItem: PropTypes.func.isRequired
+  addItem: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   email: state.auth.email,
   user: state.auth.login,
-  isLoading: state.auth.isLoading
+  isLoading: state.auth.isLoading,
 });
 
 export default connect(
   mapStateToProps,
-  { addItem }
+  { addItem },
 )(ItemModal);
