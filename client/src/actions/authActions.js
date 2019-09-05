@@ -137,16 +137,16 @@ export const changePassword = ({
   });
   console.log(body);
   axios
-    .post(`${port}api/userupdate`, body, tokenConfig(getState))
+    .post(`${port}/api/userupdate`, body, tokenConfig(getState))
     .then((res) => dispatch({
       type: CHANGE_PASSWORD,
       payload: res.data,
     }))
     .catch((err) => {
       console.log(err);
-      // dispatch(
-      //   returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'),
-      // );
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'CHANGE_PASSWORD_FAIL'),
+      );
       // dispatch({
       //   type: REGISTER_FAIL,
       // });

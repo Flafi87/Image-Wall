@@ -6,11 +6,11 @@ import {
   Spinner,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 import PostList from './PostList';
-import ItemModal from './ItemModal';
 import ProfilePage from './ProfilePage';
 
-const MainFrame = ({ activePage, isAuthenticated, isLoading }) => {
+const MainFrame = ({ isAuthenticated, isLoading }) => {
   const guestList = (
     <Alert color="secondary">Unfortunately you have to log in</Alert>
   );
@@ -20,19 +20,12 @@ const MainFrame = ({ activePage, isAuthenticated, isLoading }) => {
   } if (!isAuthenticated) {
     return guestList;
   }
-  switch (activePage) {
-    case 'posts':
-      return (
-        <Container>
-          <ItemModal />
-          <PostList />
-        </Container>
-      );
-    case 'profile':
-      return <ProfilePage />;
-    default:
-      return <Spinner color="primary" />;
-  }
+  return (
+    <Container>
+      <Route exact path="/" component={PostList} />
+      <Route exact path="/profile" component={ProfilePage} />
+    </Container>
+  );
 };
 
 const mapStateToProps = (state) => ({
@@ -43,7 +36,6 @@ const mapStateToProps = (state) => ({
 
 
 MainFrame.propTypes = {
-  activePage: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };

@@ -11,11 +11,11 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
 import RegisterModal from './auth/RegisterModal';
 import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
-import Profile from './auth/Profile';
-import Wall from './auth/Wall';
+
 
 class AppNavbar extends Component {
   constructor(props) {
@@ -41,10 +41,11 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <Wall />
+          <Link className="nav-link" to="/">Home</Link>
+
         </NavItem>
         <NavItem>
-          <Profile />
+          <Link className="nav-link" to="profile">Profile</Link>
         </NavItem>
         <NavItem>
           <Logout />

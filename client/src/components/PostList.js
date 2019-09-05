@@ -13,15 +13,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editItem, deleteItem } from '../actions/itemActions';
 import ItemEditModal from './ItemEditModal';
+import ItemModal from './ItemModal';
+
 
 class PostList extends Component {
-  componentDidMount() { }
-
-  // onEditClick = id => {
-  //   const { editItem } = this.props;
-  //   editItem(id);
-  // };
-
   onDate = (date) => {
     const time = new Date(date);
     return `${time.toDateString()} ${`0${time.getHours()}`.slice(
@@ -33,7 +28,8 @@ class PostList extends Component {
     const { posts } = this.props;
     const { email, isLoading } = this.props;
     const registeredList = (
-      <TransitionGroup className="image-list">
+      <TransitionGroup>
+        <ItemModal />
         {posts.map(({
           _id, title, image, user, login, date,
         }) => (
