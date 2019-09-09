@@ -1,47 +1,35 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import {
-  Container,
-  Alert,
-  Spinner,
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
-import PostList from './PostList';
-import ProfilePage from './ProfilePage';
+import React from "react";
+import { connect } from "react-redux";
+import { Container, Spinner } from "reactstrap";
+import PropTypes from "prop-types";
+import { Route } from "react-router-dom";
+import PostList from "./PostList";
+import ProfilePage from "./ProfilePage";
 
 const MainFrame = ({ isAuthenticated, isLoading }) => {
-  const guestList = (
-    <Alert color="secondary">Unfortunately you have to log in</Alert>
-  );
-
   if (isLoading) {
-    return <Spinner color="primary" />;
-  } if (!isAuthenticated) {
-    return guestList;
+    return <Spinner color='primary' />;
   }
   return (
     <Container>
-      <Route exact path="/" component={PostList} />
-      <Route exact path="/profile" component={ProfilePage} />
+      <Route exact path='/' component={PostList} />
+      <Route exact path='/profile' component={ProfilePage} />
     </Container>
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   activePage: state.nav.active_page,
   isAuthenticated: state.auth.isAuthenticated,
-  isLoading: state.auth.isLoading,
+  isLoading: state.auth.isLoading
 });
-
 
 MainFrame.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
-
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(MainFrame);

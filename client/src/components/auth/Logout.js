@@ -1,20 +1,20 @@
-import React from 'react';
-import { NavLink } from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { logout } from '../../actions/authActions';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { logout } from "../../actions/authActions";
 
 const Logout = ({ logout }) => (
-  <NavLink onClick={logout} href="#">
+  <Link className='nav-link' to='/' onClick={logout}>
     Logout
-  </NavLink>
+  </Link>
 );
 
 Logout.propTypes = {
-  logout: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { logout },
+  { logout }
 )(Logout);

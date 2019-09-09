@@ -40,7 +40,8 @@ const ProfilePage = ({ login, changePassword }) => {
             </FormGroup>
             <FormGroup>
               <Label for="oldpassword">Old Password</Label>
-              <Input type="password" name="oldpassword" id="oldPassword" placeholder="" onChange={(e) => setPassword(e.target.value)} />
+              <Input className="col" type="password" name="oldpassword" id="oldPassword" placeholder="" onChange={(e) => setPassword(e.target.value)} />
+              <div>Show</div>
             </FormGroup>
             <FormGroup>
               <Label for="newpassword">New Password</Label>
