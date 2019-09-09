@@ -19,3 +19,15 @@
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
 }
+
+button {
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+button:hover {
+  background-color: coral;
+}

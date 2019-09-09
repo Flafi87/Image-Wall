@@ -40,7 +40,7 @@ const Post = require("../../models/Post");
 // @route   GET api/posts
 // @desc    Get All Posts
 // @access  Public
-router.get("/", auth, (req, res) => {
+router.get("/", (req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then(posts => res.json(posts));
